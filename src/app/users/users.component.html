@@ -1,3 +1,12 @@
+<div>
+    <label>User name:
+        <input #userName />
+    </label>
+    <!-- (click) passes input value to add() and then clears the input -->
+    <button (click)="add(userName.value); userName.value=''">
+        add
+    </button>
+</div>
 <ul class="users">
     <li *ngFor="let user of users">
         <a routerLink="/detail/{{user.id}}">

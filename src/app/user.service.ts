@@ -20,13 +20,12 @@ export class UserService {
         private messageService: MessageService) { }
 
     private log(message: string) {
-        this.messageService.add(`HeroService: ${message}`);
+        this.messageService.add(`UserService : ${message}`);
     }
 
     private usersUrl = 'api/users';
 
     getUsers(): Observable<User[]> {
-        // const url = `${this.usersUrl}/${id}`;
         return this.http.get<User[]>(this.usersUrl)
             .pipe(
                 tap(_ => this.log('fetched users')),
@@ -34,11 +33,36 @@ export class UserService {
             );
     }
 
+    getUser(id: number): Observable<User[]> {
+        const url = `${this.usersUrl}/${id}`;
+        return this.http.get<User[]>(url)
+            .pipe(
+                tap(_ => this.log(`fetched user id=${id}`)),
+                catchError(this.handleError<User[]>(`getUser id=${id}`))
+            );
+    }
 
     updateUser(user: User): Observable<any> {
         return this.http.put(this.usersUrl, user, httpOptions).pipe(
-            tap(_ => this.log(`Updated hero id= ${user.id}`)),
+            tap(_ => this.log(`Updated user id= ${user.id}`)),
             catchError(this.handleError<any>('updateUser'))
+        );
+    }
+
+    addUser(user: User): Observable<User> {
+        return this.http.post<User>(this.usersUrl, user, httpOptions).pipe(
+            tap((newUser: User) => this.log(`Added user id= ${newUser.id}`)),
+            catchError(this.handleError<User>('addUser'))
+        );
+    }
+
+    deleteUser(user: User | number): Observable<User> {
+        const id = typeof user === "number" ? user : user.id;
+        const url = `${this.usersUrl}/${id}`;
+
+        return this.http.delete<User>(url, httpOptions).pipe(
+            tap(_ => this.log(`Deleted user id= ${id}`)),
+            catchError(this.handleError<User>('deleteUser'))
         );
     }
 
