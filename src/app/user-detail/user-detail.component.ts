@@ -25,11 +25,16 @@ export class UserDetailComponent implements OnInit {
 
     getUser() {
         const id = +this.route.snapshot.paramMap.get('id');
-        this.userService.getUser(id)
+        this.userService.getUsers()
             .subscribe(user => this.user = user[0]);
     }
 
     goBack(): void {
         this.location.back();
+    }
+
+    save(): void {
+        this.userService.updateUser(this.user)
+            .subscribe(() => this.goBack());
     }
 }

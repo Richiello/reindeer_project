@@ -1,7 +1,8 @@
-<div *ngIf="user" class="selectedUser">
+<div *ngIf="user" class="selectedUsers">
     <h4>{{user.name | uppercase}}, <span>{{user.id}}</span></h4>
     <label>Change name:
         <input [(ngModel)]="user.name" placeholder="name" />
     </label>
     <button (click)="goBack()">Go Back</button>
+    <button (click)="save()">save</button>
 </div>
