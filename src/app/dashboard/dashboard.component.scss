@@ -1,0 +1,28 @@
+h3 {
+    text-align: center;
+}
+
+img {
+    width: 40px;
+    height: auto;
+}
+
+.grid {
+    &__pad {
+        display: flex;
+        margin: 50px auto;
+        justify-content: space-between;
+        width: 400px;
+    }
+
+    &__item {
+        text-align: center;
+
+    }
+}
+
+a {
+    text-decoration: none;
+    color: #4e4e4e;
+    font-weight: lighter;
+}
