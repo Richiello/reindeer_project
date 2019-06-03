@@ -11,7 +11,7 @@ import { UserService } from '../user.service';
 })
 
 export class UserDetailComponent implements OnInit {
-    @Input() user: User[];
+    @Input() user: User;
 
     constructor(
         private route: ActivatedRoute,
@@ -19,12 +19,17 @@ export class UserDetailComponent implements OnInit {
         private location: Location
     ) { }
 
-    ngOnInit() {
+    ngOnInit(): void {
+        this.getUser();
     }
 
     getUser() {
         const id = +this.route.snapshot.paramMap.get('id');
         this.userService.getUser(id)
-            .subscribe(user => this.user = user);
+            .subscribe(user => this.user = user[0]);
+    }
+
+    goBack(): void {
+        this.location.back();
     }
 }
