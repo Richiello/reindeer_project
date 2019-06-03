@@ -34,8 +34,7 @@ export class UserService {
     }
 
     getUser(id: number): Observable<User[]> {
-        const url = `${this.usersUrl}/${id}`;
-        return this.http.get<User[]>(url)
+        return this.http.get<User[]>(this.usersUrl)
             .pipe(
                 tap(_ => this.log(`fetched user id=${id}`)),
                 catchError(this.handleError<User[]>(`getUser id=${id}`))
@@ -63,6 +62,18 @@ export class UserService {
         return this.http.delete<User>(url, httpOptions).pipe(
             tap(_ => this.log(`Deleted user id= ${id}`)),
             catchError(this.handleError<User>('deleteUser'))
+        );
+    }
+
+    /* GET Useres whose name contains search term */
+    searchUsers(term: string): Observable<User[]> {
+        if (!term.trim()) {
+            // if not search term, return empty User array.
+            return of([]);
+        }
+        return this.http.get<User[]>(`${this.usersUrl}/?name=${term}`).pipe(
+            tap(_ => this.log(`found users matching "${term}"`)),
+            catchError(this.handleError<User[]>('searchUser', []))
         );
     }
 
